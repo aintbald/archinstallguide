@@ -1,0 +1,35 @@
+cfdisk
+	128M for boot
+	rest for filesystem
+mkfs.ext4 /dev/sdX1
+mkfs.ext4 /dev/sdX2
+mount /dev/sdX2 /mnt
+mkdir /mnt/boot
+mount /dev/sdX1 /mnt/boot
+pacstrap /mnt base base-devel linux linux-firmware vim
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+
+pacman -S networkmanager grub neofetch
+systemctl enable NetworkManager
+grub-install /dev/sdX && grub-mkconfig -o /boot/grub/grub.cfg
+	(If "grub-install: error: cannot find efi directory arch"
+		grub-install --target=i386-pc --recheck /dev/sdX)
+passwd
+	type password 2x
+vim /etc/locale.gen
+	uncheck ISO and UTF8 of desired language
+locale-gen
+vim /etc/locale.conf
+	type said language
+		for example: LANG=en-US.UTF-8
+vim /etc/hostname
+	type in hostname for machine
+		for example: arch
+ln -sf /usr/share/zoneinfo/Region/Place /etc/localtime
+	for example: /usr/share/zoneinfo/Europe/Zurich
+exit
+umount -R /mnt
+reboot now
+
+!installation done!

@@ -1,0 +1,32 @@
+useradd -mg wheel NAMEOFUSER
+usermod -a -G audio NAMEOFUSER
+passwd NAMEOFUSER
+	type password 2x
+vim /etc/sudoers
+	uncomment line %wheel ALL=(ALL) ALL
+pacman -S xorg-server xorg-xinit git libxft libxinerama
+git clone https://github.com/aintbald/dwm
+git clone https://github.com/aintbald/dmenu
+cd dwm
+git clone https://github.com/aintbald/patch
+make clean install
+cd /root/dmenu
+make clean install
+pacman -S dolphin breeze terminus-font ttf-inconsolata
+git clone https://git.suckless.org/st
+cd st
+vim config.def.h
+	change font to Terminus
+make clean install
+cd
+exit
+(log in as user)
+touch .xinitrc
+vim .xinitrc
+	write: "exec dwm"
+if intel CPU:
+	sudo pacman -S xf86-video-intel
+startx
+
+!GUI installation done!
+
